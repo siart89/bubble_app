@@ -1,11 +1,16 @@
 import React from 'react';
+import { MainWrapper, Global } from './components/styles';
+import Main from './components/Main';
 
 
 function App() {
   return (
-    <div className="App">
-      <h1>hey</h1>
-    </div>
+    <>
+      <Global />
+      <MainWrapper>
+        <Main />
+      </MainWrapper>
+    </>
   );
 }
 
