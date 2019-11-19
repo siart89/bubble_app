@@ -38,10 +38,9 @@ const Main = () => {
         elem,
         id,
       }) => (
-        <li key={id} level={level} className="main">
+        <li key={id}>
           <Bubble
             text={text}
-            level={level}
             onClick={() => handleAddBubble(elem, level)}
           />
           {elem && BubblesCreator(elem)}
