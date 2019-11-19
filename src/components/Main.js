@@ -4,6 +4,7 @@ import {
   Input,
   Button,
   BubbleWrapper,
+  UlMain,
 } from './styles';
 import Bubble from './Bubble';
 
@@ -11,45 +12,57 @@ import Bubble from './Bubble';
 const Main = () => {
   const [inpValue, setInpValue] = useState('');
   const [bubbles, setBubbles] = useState([]);
-  const [elemNum, setElemNum] = useState(1);
+  // eslint-disable-next-line global-require
+  const uniqid = require('uniqid');
+
 
   useEffect(() => {
     console.log(bubbles);
   }, [bubbles]);
-
-
-  const handleAddBubble = (n, parent, child) => {
-    if (inpValue) {
-      const level = {
-        text: inpValue,
-        level: n,
-        elem: [parent, child],
-      };
-      setBubbles([...bubbles, level]);
-      setInpValue('');
-    }
+  // рабочая
+  const handleAddBubble = (elem, level) => {
+    elem.push({
+      text: inpValue,
+      level: level + 1,
+      id: uniqid(),
+      elem: [],
+    });
+    setBubbles(bubbles.slice());
+    setInpValue('');
   };
 
+  // это рабочая
   const BubblesCreator = (arr) => (
-    arr.map(({ text, level, elem }, ind, arry) => {
-      return (
-        <Bubble
-          key={`${text}${ind.toString()}`}
-          text={text}
-          level={level}
-          elem={elem[1]}
-          onClick={() => handleAddBubble((level + 1), elem[1], elem[1] + 1)}
-        />
-      )
-    }
-  ))
+    <UlMain>
+      {arr.map(({
+        text,
+        level,
+        elem,
+        id,
+      }) => (
+        <li key={id} level={level} className="main">
+          <Bubble
+            text={text.toString()}
+            level={level}
+            onClick={() => handleAddBubble(elem, level)}
+          />
+          {elem && BubblesCreator(elem)}
+        </li>
+      ))}
+    </UlMain>
+  );
 
   return (
     <>
       <Form onSubmit={(e) => {
         e.preventDefault();
-        handleAddBubble(1, 0, elemNum);
-        setElemNum(elemNum + 1);
+        setBubbles([...bubbles, {
+          text: inpValue,
+          level: 1,
+          id: uniqid(),
+          elem: [],
+        }]);
+        setInpValue('');
       }}
       >
         <Input

@@ -20,13 +20,14 @@ const MainWrapper = styled.section`
 const Form = styled.form`
   display:flex;
   align-items:center;
+  justify-content:center;
   max-width:40%;
   width:100%;
   margin:20px auto;
 `;
 
 const Input = styled.input`
-  flex-grow:1;
+  flex-basis:150px;
   padding:5px 7px;
 `;
 
@@ -37,19 +38,9 @@ const Button = styled.button`
 const BubbleWrapper = styled.div`
   max-width:max-content;
   width:100%;
-  display:grid;
-  grid-template:auto;
-  /* grid-row-gap:55px; */
 `;
 
-const MyBubble = styled.div.attrs((props) => ({
-  topShift: () => {
-    if (props.level !== 1) {
-      return 10 * (props.level - 1);
-    }
-    return 0;
-  },
-}))`
+const MyBubble = styled.div`
   width:50px;
   height:50px;
   border-radius:100%;
@@ -58,10 +49,6 @@ const MyBubble = styled.div.attrs((props) => ({
   align-items:center;
   justify-content:center;
   flex-direction:column;
-  grid-column-start:${(props) => props.level};
-  grid-column-end: ${(props) => props.level + 1};
-  /* grid-row-start:${(props) => props.elem}; */
-  /* margin-top:${(props) => props.topShift}px; */
 `;
 
 const SmallBtn = styled(MyBubble)`
@@ -69,6 +56,11 @@ padding: 0;
 width: 15px;
 height: 15px;
 cursor: pointer;
+`;
+
+const UlMain = styled.ul`
+  padding: 10px 0 10px 50px;
+  list-style:none;
 `;
 
 export {
@@ -80,4 +72,5 @@ export {
   MyBubble,
   SmallBtn,
   BubbleWrapper,
+  UlMain,
 };
