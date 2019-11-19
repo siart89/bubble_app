@@ -41,8 +41,10 @@ const BubbleWrapper = styled.div`
 `;
 
 const MyBubble = styled.div`
-  width:50px;
-  height:50px;
+  width:65px;
+  height:65px;
+  font-size:12px;
+  overflow:hidden;
   border-radius:100%;
   border:1px solid black;
   display:flex;

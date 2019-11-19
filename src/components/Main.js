@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import {
   Form,
   Input,
@@ -15,23 +15,21 @@ const Main = () => {
   // eslint-disable-next-line global-require
   const uniqid = require('uniqid');
 
-
-  useEffect(() => {
-    console.log(bubbles);
-  }, [bubbles]);
-  // рабочая
+  // add new Element
   const handleAddBubble = (elem, level) => {
-    elem.push({
-      text: inpValue,
-      level: level + 1,
-      id: uniqid(),
-      elem: [],
-    });
-    setBubbles(bubbles.slice());
-    setInpValue('');
+    if (inpValue) {
+      elem.push({
+        text: inpValue,
+        level: level + 1,
+        id: uniqid(),
+        elem: [],
+      });
+      setBubbles(bubbles.slice());
+      setInpValue('');
+    }
   };
 
-  // это рабочая
+  // Render elements
   const BubblesCreator = (arr) => (
     <UlMain>
       {arr.map(({
@@ -42,7 +40,7 @@ const Main = () => {
       }) => (
         <li key={id} level={level} className="main">
           <Bubble
-            text={text.toString()}
+            text={text}
             level={level}
             onClick={() => handleAddBubble(elem, level)}
           />
@@ -52,23 +50,29 @@ const Main = () => {
     </UlMain>
   );
 
+  const handleSetValueOnSubmit = (e) => {
+    e.preventDefault();
+    if (inpValue) {
+      setBubbles([...bubbles, {
+        text: inpValue,
+        level: 1,
+        id: uniqid(),
+        elem: [],
+      }]);
+      setInpValue('');
+    }
+  };
   return (
     <>
-      <Form onSubmit={(e) => {
-        e.preventDefault();
-        setBubbles([...bubbles, {
-          text: inpValue,
-          level: 1,
-          id: uniqid(),
-          elem: [],
-        }]);
-        setInpValue('');
-      }}
-      >
+      <Form onSubmit={handleSetValueOnSubmit}>
         <Input
           type="text"
           value={inpValue}
-          onChange={(e) => setInpValue(e.currentTarget.value)}
+          onChange={(e) => {
+            if (e.target.value.length < 7) {
+              setInpValue(e.currentTarget.value);
+            }
+          }}
         />
         <Button
           type="submit"
